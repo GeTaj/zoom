@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <title>股票数据浏览器</title>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <div class="title left">
+                <h1>{{title}}</h1>
+            </div>
+        </div>
+        <div class="content">
+            <div class="aside left">
+                <div class="aside_top">
+                    <h4 class="index_selected">待选指标</h4>
+                    <div class="search">
+                        <el-input placeholder="输入关键字进行过滤" v-model="filterText">
+                        </el-input>
+                    </div>
+                    <div class="nav">
+                        <el-tree class="filter-tree" :data="data2" @node-click="addColumn" :props="defaultProps" :filter-node-method="filterNode" ref="tree2">
+                        </el-tree>
+                    </div>
+                </div>
+                <div class="aside_bottom">
+                    <h4 class="fliter_range">筛选范围</h4>
+
+                </div>
+            </div>
+            <div class="main">
+                <div class="main_box">
+                    <div class="subnav">
+                        <ul class="operation clearfix">
+                            <li class="active" @click="pullData">提取数据</li>
+                            <li>使用可选参数</li>
+                            <li>显示统计数据</li>
+                            <li @click="">导出Excel</li>
+                            <li @click="toggleThead">隐藏或显示参数</li>
+                            <li @click="deleteColumn" :class="{unabled:toggleDeleteColumn}" >删除指标</li>
+                            <li @click="clearColumn">清空指标</li>
+                        </ul>
+                    </div>
+                    <div class="table_box" ref="tableBox">
+                        <el-table :data="tableData3" border  style="width: 100%;" :height="tableHeight" :show-header="toggleShowHeader" @header-click="activeColumn" v-loading="loading" element-loading-text="拼命加载中" ref='table'>
+                            <el-table-column type="index" width="55">
+                            </el-table-column>
+                            <el-table-column v-for="item in tableHeadData" :key="item.prop" :prop="item.prop" :label="item.label" width="150" class-name="{active:false}">
+                            </el-table-column>
+                            
+                        </el-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 先引入 Vue -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--通用页面js-->
+    <script src="./js/common.js"></script>
+</body>
+</html>
